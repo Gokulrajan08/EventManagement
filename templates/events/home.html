@@ -1,0 +1,99 @@
+{% extends 'events/base.html' %}
+{% block title %}Home — EventHub{% endblock %}
+{% block content %}
+
+<!-- Hero -->
+<section class="hero">
+  <div class="hero-content">
+    <span class="hero-badge"><i class="fa-solid fa-bolt"></i> Smart Event Management</span>
+    <h1>Discover &amp; Host <span class="gradient-text">Amazing Events</span></h1>
+    <p>Connect with communities, register for events, and manage everything in one place.</p>
+    <div class="hero-actions">
+      <a href="{% url 'event_list' %}" class="btn btn-primary btn-lg"><i class="fa-solid fa-compass"></i> Explore Events</a>
+      {% if not user.is_authenticated %}
+        <a href="{% url 'register' %}" class="btn btn-outline btn-lg"><i class="fa-solid fa-user-plus"></i> Get Started Free</a>
+      {% else %}
+        <a href="{% url 'dashboard' %}" class="btn btn-outline btn-lg"><i class="fa-solid fa-gauge"></i> My Dashboard</a>
+      {% endif %}
+    </div>
+  </div>
+  <div class="hero-visual">
+    <div class="hero-card floating">
+      <i class="fa-solid fa-calendar-check"></i>
+      <span>Events Managed</span>
+      <strong>500+</strong>
+    </div>
+    <div class="hero-card floating delay-1">
+      <i class="fa-solid fa-users"></i>
+      <span>Participants</span>
+      <strong>10k+</strong>
+    </div>
+    <div class="hero-card floating delay-2">
+      <i class="fa-solid fa-star"></i>
+      <span>Satisfaction</span>
+      <strong>98%</strong>
+    </div>
+  </div>
+</section>
+
+<!-- Upcoming Events -->
+<section class="section">
+  <div class="container">
+    <div class="section-header">
+      <h2>Upcoming <span class="gradient-text">Events</span></h2>
+      <a href="{% url 'event_list' %}" class="btn btn-outline btn-sm">View All <i class="fa-solid fa-arrow-right"></i></a>
+    </div>
+    {% if upcoming_events %}
+    <div class="events-grid">
+      {% for event in upcoming_events %}
+      <div class="event-card">
+        <div class="event-card-badge">{{ event.date|date:"M d" }}</div>
+        <div class="event-card-body">
+          <h3>{{ event.title }}</h3>
+          <p class="event-desc">{{ event.description|truncatechars:90 }}</p>
+          <div class="event-meta">
+            <span><i class="fa-solid fa-location-dot"></i> {{ event.location }}</span>
+            <span><i class="fa-solid fa-users"></i> {{ event.max_participants }} spots</span>
+          </div>
+        </div>
+        <div class="event-card-footer">
+          <span class="organizer"><i class="fa-solid fa-user"></i> {{ event.organizer.username }}</span>
+          <a href="{% url 'event_detail' event.pk %}" class="btn btn-primary btn-sm">View Details</a>
+        </div>
+      </div>
+      {% endfor %}
+    </div>
+    {% else %}
+    <div class="empty-state">
+      <i class="fa-solid fa-calendar-xmark"></i>
+      <p>No upcoming events yet. <a href="{% url 'register' %}">Create one!</a></p>
+    </div>
+    {% endif %}
+  </div>
+</section>
+
+<!-- Features -->
+<section class="features-section">
+  <div class="container">
+    <h2 class="text-center">Why <span class="gradient-text">EventHub?</span></h2>
+    <div class="features-grid">
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-wand-magic-sparkles"></i></div>
+        <h3>Easy to Create</h3>
+        <p>Organizers can set up events in minutes with our streamlined creation flow.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-ticket"></i></div>
+        <h3>Smart Registration</h3>
+        <p>Participants register instantly with automatic capacity management.</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon"><i class="fa-solid fa-gauge-high"></i></div>
+        <h3>Live Dashboard</h3>
+        <p>Track attendance, manage your events, and see registrations in real-time.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

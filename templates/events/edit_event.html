@@ -1,0 +1,41 @@
+{% extends 'events/base.html' %}
+{% block title %}Edit Event — EventHub{% endblock %}
+{% block content %}
+<div class="container page-top">
+  <div class="form-page">
+    <div class="form-header">
+      <h1><i class="fa-solid fa-pen-to-square"></i> Edit Event</h1>
+      <p>Update the details of your event</p>
+    </div>
+    <form method="post" class="event-form">
+      {% csrf_token %}
+      <div class="form-group">
+        <label for="title"><i class="fa-solid fa-heading"></i> Event Title</label>
+        <input type="text" id="title" name="title" value="{{ event.title }}" required/>
+      </div>
+      <div class="form-group">
+        <label for="description"><i class="fa-solid fa-align-left"></i> Description</label>
+        <textarea id="description" name="description" rows="4" required>{{ event.description }}</textarea>
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="date"><i class="fa-solid fa-calendar"></i> Date &amp; Time</label>
+          <input type="datetime-local" id="date" name="date" value="{{ event.date|date:'Y-m-d\TH:i' }}" required/>
+        </div>
+        <div class="form-group">
+          <label for="max_participants"><i class="fa-solid fa-users"></i> Max Participants</label>
+          <input type="number" id="max_participants" name="max_participants" value="{{ event.max_participants }}" min="1" required/>
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="location"><i class="fa-solid fa-location-dot"></i> Location</label>
+        <input type="text" id="location" name="location" value="{{ event.location }}" required/>
+      </div>
+      <div class="form-actions">
+        <a href="{% url 'event_detail' event.pk %}" class="btn btn-outline">Cancel</a>
+        <button type="submit" class="btn btn-primary"><i class="fa-solid fa-floppy-disk"></i> Save Changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+{% endblock %}
